@@ -4,13 +4,12 @@ import PostData from '../data/posts.json'
 import PostDetail from './PostDetail'
 
 class PostList extends Component {
-  constructor (props) {
-    super(props)
-    this.handleDataCallback = this.handleDataCallback.bind(this)
-  }
+  //constructor (props) {
+  //  super(props)
+  //  this.handleDataCallback = this.handleDataCallback.bind(this)
+  //}
   handleDataCallback (txtMsg) {
-    // alert(txtMsg)
-    // console.log(this)
+    alert(txtMsg)
   }
   render () {
     return (

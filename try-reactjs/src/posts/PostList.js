@@ -4,21 +4,55 @@ import PostData from '../data/posts.json'
 import PostDetail from './PostDetail'
 
 class PostList extends Component {
-  //constructor (props) {
-  //  super(props)
-  //  this.handleDataCallback = this.handleDataCallback.bind(this)
-  //}
+  constructor (props) {
+    super(props)
+    this.handleDataCallback = this.handleDataCallback.bind(this)
+    this.handlePostRemove = this.handlePostRemove.bind(this)
+    this.state = {
+      postList: []
+    }
+  }
+
+  componentDidMount () {
+    this.setState({
+      isLoading: true,
+      postList: PostData
+    })
+  }
+
+  updateBackend (currentPostList) {
+    console.log('Updating..')
+    this.setState({
+      postItem: currentPostList
+    })
+  }
+
+  handlePostRemove (postItem) {
+    let currentPostList = this.state.postList
+    currentPostList.pop(postItem)
+
+    this.updateBackend(postItem)
+  }
+
   handleDataCallback (postItem) {
     alert(postItem)
+    let currentPostList = this.state.postList
+    currentPostList.push(postItem)
+    this.setState({
+      postItem: currentPostList
+    })
   }
+
   render () {
+    const { postList } = this.state
     return (
       <div>
         <h1>Hello There</h1>
-        {PostData.map((item, index) => {
+        {postList.map((item, index) => {
           return <PostDetail
             post={item}
             key={`post-list-key ${index}`}
+            didHandleRemove={this.handlePostRemove}
             dataCallback={this.handleDataCallback} />
         })}
       </div>

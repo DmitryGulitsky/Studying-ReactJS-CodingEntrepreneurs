@@ -12,8 +12,8 @@ class PostDetail extends Component {
     }
   }
 
-  handleRemoveContentButton(event){
-    if (this.props.didHandleRemove){
+  handleRemoveContentButton (event) {
+    if (this.props.didHandleRemove) {
       this.props.didHandleRemove(this.props.post)
     }
   }
@@ -21,7 +21,8 @@ class PostDetail extends Component {
   titleWasClicked (event) {
     event.preventDefault()
     const { dataCallback } = this.props
-    const newPostItem = this.props.post
+    // console.log(dataCallback)
+    let newPostItem = this.props.post
     newPostItem['title'] = 'This is my awesome new title'
     this.setState({
       postItem: newPostItem
@@ -29,6 +30,7 @@ class PostDetail extends Component {
     if (dataCallback !== undefined) {
       dataCallback(newPostItem)
     }
+    //
   }
 
   toggleContent (event) {
@@ -38,11 +40,21 @@ class PostDetail extends Component {
     })
   }
 
-  componentDidMount () { //  метод, который вызывается перед render()
+  setPostStateOnProps () {
     const { post } = this.props
     this.setState({
       postItem: post
     })
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshop) {
+    if (this.props !== prevProps) {
+      this.setPostStateOnProps()
+    }
+  }
+
+  componentDidMount () {
+    this.setPostStateOnProps()
   }
 
   render () {
@@ -52,7 +64,11 @@ class PostDetail extends Component {
       <div>
         {postItem !== null
           ? <div>
-            <h1 onClick={this.titleWasClicked}>{postItem.title}</h1>
+            <h1 onClick={this.titleWasClicked}>{postItem.title}
+              <small>
+                {postItem.date}
+              </small>
+            </h1>
             {showContent === true ? <p>{postItem.content}</p> : ''}
             <button onClick={this.toggleContent}>Toggle Content Display</button>
             <button onClick={this.handleRemoveContentButton}>Remove Content</button>

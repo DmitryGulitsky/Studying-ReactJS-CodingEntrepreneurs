@@ -13,40 +13,37 @@ class PostList extends Component {
     }
   }
 
-  componentDidMount () {
-    this.setState({
-      isLoading: true,
-      postList: PostData
-    })
-  }
-
   updateBackend (currentPostList) {
     console.log('Updating..')
     this.setState({
       postItem: currentPostList
     })
   }
-
   handlePostRemove (postItem) {
     let currentPostList = this.state.postList
     currentPostList.pop(postItem)
 
-    this.updateBackend(postItem)
+    this.updateBackend(currentPostList)
   }
 
   handleDataCallback (postItem) {
-    alert(postItem)
+    // alert(txtMsg)
+    // console.log(postItem)
     let currentPostList = this.state.postList
     currentPostList.push(postItem)
     this.setState({
       postItem: currentPostList
     })
   }
-
+  componentDidMount () {
+    this.setState({
+      postList: PostData
+    })
+  }
   render () {
-    const { postList } = this.state
+    const {postList} = this.state
     return (
-      <div>
+      <div >
         <h1>Hello There</h1>
         {postList.map((item, index) => {
           return <PostDetail

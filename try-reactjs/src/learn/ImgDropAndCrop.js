@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 
 import Dropzone from 'react-dropzone'
+import ReactCrop from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css';
+
 
 const imageMaxSize = 1000000000 // bytes
 const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif'
@@ -12,7 +15,10 @@ class ImgDropAndCrop extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      imgSrc: null
+      imgSrc: null,
+      crop: {
+        aspect: 1 / 1
+      }
     }
   }
 
@@ -58,6 +64,17 @@ class ImgDropAndCrop extends Component {
     }
   }
 
+
+  handleImageLoaded = (image) => {
+    console.log(image)
+  }
+  handleOnCropChange = (crop) => {
+    this.setState({crop: crop})
+  }
+  handleOnCropComplete = (crop, pixelCrop) => {
+    console.log(crop, pixelCrop)
+  }
+
   render() {
     const {imgSrc} = this.state
     return (
@@ -65,11 +82,19 @@ class ImgDropAndCrop extends Component {
         <h1>Drop and Crop</h1>
         {imgSrc !== null ?
           <div>
-            {imgSrc}
-            <img src={imgSrc}/>
-          </div> :
 
-          <Dropzone onDrop={this.handleOnDrop} accept={acceptedFileTypes} multiple={false} maxSize={imageMaxSize}>Drop
+
+            <ReactCrop
+              src={imgSrc}
+              crop={this.state.crop}
+              onImageLoaded={this.handleImageLoaded}
+              onComplete={this.handleOnCropComplete}
+              onChange={this.handleOnCropChange}/>
+          </div>
+
+          :
+
+          <Dropzone onDrop={this.handleOnDrop} accept={acceptedFileTypes} multiple={false} maxSize={imageMaxSize} >Drop
             image here or click to upload</Dropzone>
         }
 

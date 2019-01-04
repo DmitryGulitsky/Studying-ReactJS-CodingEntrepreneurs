@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class PostDetail extends Component {
   constructor (props) {
     super(props)
-    this.titleWasClicked = this.titleWasClicked.bind(this)
+    // this.titleWasClicked = this.titleWasClicked.bind(this)
     this.toggleContent = this.toggleContent.bind(this)
     this.handleRemoveContentButton = this.handleRemoveContentButton.bind(this)
     this.state = {
@@ -11,14 +11,12 @@ class PostDetail extends Component {
       postItem: null
     }
   }
-
   handleRemoveContentButton (event) {
     if (this.props.didHandleRemove) {
       this.props.didHandleRemove(this.props.post)
     }
   }
-
-  titleWasClicked (event) {
+  titleWasClicked = (event) => {
     event.preventDefault()
     const { dataCallback } = this.props
     // console.log(dataCallback)
@@ -46,17 +44,14 @@ class PostDetail extends Component {
       postItem: post
     })
   }
-
   componentDidUpdate (prevProps, prevState, snapshop) {
     if (this.props !== prevProps) {
       this.setPostStateOnProps()
     }
   }
-
   componentDidMount () {
     this.setPostStateOnProps()
   }
-
   render () {
     const { postItem } = this.state
     const { showContent } = this.state
